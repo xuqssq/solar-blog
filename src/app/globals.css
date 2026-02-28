@@ -989,6 +989,7 @@ article .content blockquote p {
   position: fixed;
   perspective: 5000px;
   perspective-origin: 60% 50%;
+  transform-style: preserve-3d;
   margin-top: 2vh;
   width: inherit;
   opacity: 0;
@@ -1033,6 +1034,7 @@ article .content blockquote p {
   background-color: transparent;
   animation-iteration-count: infinite;
   overflow: hidden;
+  border-radius: 50%;
 }
 
 .solar-shadow {

@@ -49,7 +49,7 @@ export default function Banner() {
       >
         {siteConfig.title}
       </div>
-      <ul
+      <div
         className={`solar-wrapper ${loaded ? "loaded" : ""}`}
         ref={wrapperRef}
       >
@@ -81,7 +81,7 @@ export default function Banner() {
             <div className="solar-shadow" />
           </div>
         </div>
-      </ul>
+      </div>
     </div>
   );
 }

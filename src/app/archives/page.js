@@ -15,7 +15,8 @@ export default function ArchivesPage() {
 
   return (
     <>
-      <Banner />
+      {/* <Banner /> */}
+      <div className="h-[20vh]"/>
       <div className="background">
         <div className="content index w-full max-w-[50rem] mx-auto px-4 my-16">
           <Header />
