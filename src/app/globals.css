@@ -966,7 +966,7 @@ article .content blockquote p {
 }
 
 @keyframes orbitjupiter {
-  0% { z-index: 6; transform: rotateY(270deg); }
+  0% { z-index: 6; transform: rotateY(0deg); }
   49% { z-index: 6; }
   50% { z-index: -6; }
   99% { z-index: -6; }
@@ -989,16 +989,10 @@ article .content blockquote p {
   position: fixed;
   perspective: 5000px;
   perspective-origin: 60% 50%;
-  transform-style: preserve-3d;
   margin-top: 2vh;
   width: inherit;
   opacity: 0;
   padding: 0;
-  transition: opacity 1s ease;
-}
-
-.solar-wrapper.loaded {
-  opacity: 1;
 }
 
 .solar-wrapper > div {

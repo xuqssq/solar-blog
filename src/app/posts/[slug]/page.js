@@ -47,8 +47,7 @@ export default async function PostPage({ params }) {
 
   return (
     <>
-      {/* <Banner /> */}
-      <div className="h-[20vh]"/>
+      <Banner />
       <div className="background">
         <PostActions post={post} prevPost={prev} nextPost={next} toc={toc} />
         <div className="content index w-full max-w-[50rem] mx-auto px-4 my-16">

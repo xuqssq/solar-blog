@@ -1,0 +1,1 @@
+INSERT INTO "public"."categories" ("id", "name", "description") VALUES ('208aa8d5-2f00-46e3-b1f3-dbc3fefb1157', 'Redis', 'Redis 相关知识与实践');

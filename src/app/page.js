@@ -9,8 +9,7 @@ export default function Home() {
 
   return (
     <>
-      {/* <Banner /> */}
-      <div className="h-[20vh]"/>
+      <Banner />
       <div className="background">
         <div className="content index w-full max-w-200 mx-auto px-4 my-16">
           <Header />

@@ -1,58 +1,45 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect } from "react";
 import { siteConfig } from "@/data/posts";
 
 export default function Banner() {
-  const bannerRef = useRef(null);
-  const wrapperRef = useRef(null);
-  const [loaded, setLoaded] = useState(false);
-  const [showTitle, setShowTitle] = useState(true);
-
   useEffect(() => {
-    // Fade in the wrapper and fade out the title after mount
-    const timer = setTimeout(() => {
-      setLoaded(true);
-    }, 100);
-    const titleTimer = setTimeout(() => {
-      setShowTitle(false);
-    }, 2000);
+    const $ = window.jQuery;
+    if (!$) return;
+
+    $(".solar-wrapper").fadeTo("slow", 1);
+    $(".solar-blogtitel").fadeOut(2000);
+
+    function handleScroll() {
+      const banner = $(".solar-banner")[0];
+      const wrapper = $(".solar-wrapper")[0];
+      if (!banner || !wrapper) return;
+
+      var z =
+        banner.getBoundingClientRect().bottom /
+        (banner.getBoundingClientRect().bottom -
+          banner.getBoundingClientRect().top);
+
+      if (z < 0) {
+        z = 0.01;
+      }
+
+      wrapper.style.zoom = z;
+      wrapper.style.MozTransform = "scale(" + z + ")";
+    }
+
+    $(window).on("scroll", handleScroll);
+
     return () => {
-      clearTimeout(timer);
-      clearTimeout(titleTimer);
+      $(window).off("scroll", handleScroll);
     };
   }, []);
 
-  useEffect(() => {
-    function handleScroll() {
-      const banner = bannerRef.current;
-      const wrapper = wrapperRef.current;
-      if (!banner || !wrapper) return;
-
-      const rect = banner.getBoundingClientRect();
-      let z = rect.bottom / (rect.bottom - rect.top);
-      if (z < 0) z = 0.01;
-
-      wrapper.style.zoom = z;
-      wrapper.style.MozTransform = `scale(${z})`;
-    }
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <div className="solar-banner" ref={bannerRef}>
-      <div
-        className="solar-blogtitel"
-        style={{ opacity: showTitle ? 1 : 0 }}
-      >
-        {siteConfig.title}
-      </div>
-      <div
-        className={`solar-wrapper ${loaded ? "loaded" : ""}`}
-        ref={wrapperRef}
-      >
+    <div className="solar-banner">
+      <div className="solar-blogtitel">{siteConfig.title}</div>
+      <ul className="solar-wrapper">
         <div className="solar-sun">
           <div className="star" />
         </div>
@@ -81,7 +68,7 @@ export default function Banner() {
             <div className="solar-shadow" />
           </div>
         </div>
-      </div>
+      </ul>
     </div>
   );
 }
