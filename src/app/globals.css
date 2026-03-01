@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* ===== Design Tokens ===== */
 :root {
@@ -1172,4 +1173,146 @@ article .content blockquote p {
   width: 100%;
   z-index: 20;
   text-align: left;
+}
+
+/* ===== Prose Overrides for Dark Theme ===== */
+.prose {
+  --tw-prose-body: var(--color-text);
+  --tw-prose-headings: var(--color-lightest);
+  --tw-prose-links: var(--color-text);
+  --tw-prose-bold: var(--color-lightest);
+  --tw-prose-counters: var(--color-light);
+  --tw-prose-bullets: var(--color-light);
+  --tw-prose-hr: #444;
+  --tw-prose-quotes: #ccffb6;
+  --tw-prose-quote-borders: var(--color-accent);
+  --tw-prose-code: var(--color-lightest);
+  --tw-prose-pre-code: var(--color-text);
+  --tw-prose-pre-bg: var(--color-bg-lighter);
+  --tw-prose-th-borders: #666;
+  --tw-prose-td-borders: #444;
+  font-family: var(--font-body);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+}
+
+.prose a {
+  text-decoration: none;
+  background-repeat: repeat-x;
+  background-position: bottom;
+  background-size: 100% 6px;
+  background-image: linear-gradient(transparent, transparent 5px, var(--color-text) 5px, var(--color-text));
+}
+
+.prose a:hover {
+  background-image: linear-gradient(transparent, transparent 4px, var(--color-link) 4px, var(--color-link));
+}
+
+.prose pre {
+  border: 1px dotted #666;
+  border-radius: 4px;
+}
+
+.prose :where(code):not(:where(pre *)) {
+  border: 1px dotted #666;
+  border-radius: 2px;
+  padding: 0 5px;
+  font-weight: normal;
+}
+
+.prose :where(code):not(:where(pre *))::before,
+.prose :where(code):not(:where(pre *))::after {
+  content: none;
+}
+
+/* ===== Category Tabs ===== */
+.category-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  padding: 0;
+}
+
+.category-tab {
+  padding: 0.35rem 0.85rem;
+  font-size: 0.85rem;
+  border: 1px dotted #666;
+  border-radius: 3px;
+  color: var(--color-light);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  font-family: var(--font-body);
+}
+
+.category-tab:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.category-tab.active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: rgba(91, 172, 74, 0.1);
+}
+
+/* ===== Pagination ===== */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+  padding: 1rem 0;
+}
+
+.pagination a,
+.pagination span {
+  padding: 0.3rem 0.7rem;
+  font-size: 0.85rem;
+  border: 1px dotted #666;
+  border-radius: 3px;
+  color: var(--color-light);
+  text-decoration: none;
+  font-family: var(--font-body);
+  transition: all 0.2s;
+}
+
+.pagination a:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.pagination .active {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: rgba(91, 172, 74, 0.1);
+}
+
+.pagination .disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+/* ===== Skeleton Loading ===== */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton {
+  background: linear-gradient(90deg, var(--color-bg-lighter) 25%, #333 50%, var(--color-bg-lighter) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: 3px;
+}
+
+/* ===== Empty State ===== */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #666;
+  font-style: italic;
 }

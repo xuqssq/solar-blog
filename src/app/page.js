@@ -2,10 +2,11 @@ import Link from "next/link";
 import Banner from "@/components/Banner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { siteConfig, posts, projects } from "@/data/posts";
+import { siteConfig } from "@/data/posts";
+import { getLatestArticles } from "@/lib/queries";
 
-export default function Home() {
-  const latestPosts = posts.slice(0, 5);
+export default async function Home() {
+  const latestArticles = await getLatestArticles(5);
 
   return (
     <>
@@ -23,11 +24,11 @@ export default function Home() {
               <Link href="/archives">Writing</Link>
             </span>
             <ul className="post-list">
-              {latestPosts.map((post) => (
-                <li key={post.slug} className="post-item">
+              {latestArticles.map((article) => (
+                <li key={article.id} className="post-item">
                   <div className="meta">
-                    <time dateTime={post.date}>
-                      {new Date(post.date).toLocaleDateString("en-US", {
+                    <time dateTime={article.publish_time}>
+                      {new Date(article.publish_time).toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "short",
                         day: "numeric",
@@ -35,7 +36,7 @@ export default function Home() {
                     </time>
                   </div>
                   <span>
-                    <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+                    <Link href={`/posts/${article.id}`}>{article.title}</Link>
                   </span>
                 </li>
               ))}
