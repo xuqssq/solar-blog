@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { List, Share2, ChevronUp, Menu } from "lucide-react";
 import ShareLinks from "./ShareLinks";
-import { siteConfig } from "@/data/posts";
+import { siteConfig } from "@/lib/config";
 
 export default function PostActionsMobile({ post, toc }) {
   const [showNav, setShowNav] = useState(false);

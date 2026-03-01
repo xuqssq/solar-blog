@@ -1,7 +1,7 @@
 import Banner from "@/components/Banner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { siteConfig } from "@/data/posts";
+import { siteConfig } from "@/lib/config";
 
 export const metadata = {
   title: "About | Solar Blog",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { siteConfig } from "@/data/posts";
+import { siteConfig } from "@/lib/config";
 
 export default function Banner() {
   useEffect(() => {

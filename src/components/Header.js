@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import { siteConfig } from "@/data/posts";
+import { siteConfig } from "@/lib/config";
 
 export default function Header() {
   const [responsive, setResponsive] = useState(false);

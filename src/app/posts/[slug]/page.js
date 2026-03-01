@@ -4,9 +4,8 @@ import Footer from "@/components/Footer";
 import PostActions from "@/components/PostActions";
 import PostActionsMobile from "@/components/PostActionsMobile";
 import ArticleContent from "@/components/ArticleContent";
-import { siteConfig } from "@/data/posts";
+import { siteConfig } from "@/lib/config";
 import { getArticleById, getAdjacentArticles } from "@/lib/queries";
-import { textToHtml } from "@/lib/content";
 
 export async function generateMetadata({ params }) {
   const { slug } = await params;
@@ -15,27 +14,18 @@ export async function generateMetadata({ params }) {
   return { title: `${article.title} | ${siteConfig.title}` };
 }
 
-function extractToc(html) {
-  const headingRegex = /<h([2-3])[^>]*>([^<]+)<\/h[2-3]>/gi;
+function extractTocFromMarkdown(markdown) {
   const toc = [];
-  let match;
-  while ((match = headingRegex.exec(html)) !== null) {
-    const level = parseInt(match[1], 10);
-    const text = match[2].trim();
-    const id = text.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, "-");
-    toc.push({ level, text, id });
+  for (const line of markdown.split("\n")) {
+    const match = line.match(/^(#{2,3})\s+(.+)/);
+    if (match) {
+      const level = match[1].length;
+      const text = match[2].trim();
+      const id = text.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, "-").replace(/^-|-$/g, "");
+      toc.push({ level, text, id });
+    }
   }
   return toc;
-}
-
-function addIdsToHeadings(html) {
-  return html.replace(
-    /<h([2-3])([^>]*)>([^<]+)<\/h([2-3])>/gi,
-    (match, level, attrs, text, closeLevel) => {
-      const id = text.trim().toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, "-");
-      return `<h${level}${attrs} id="${id}">${text}</h${level}>`;
-    }
-  );
 }
 
 export default async function PostPage({ params }) {
@@ -44,10 +34,8 @@ export default async function PostPage({ params }) {
   if (!article) notFound();
 
   const { prev, next } = await getAdjacentArticles(slug);
-  const contentText = article.content?.text || "";
-  const rawHtml = textToHtml(contentText);
-  const contentWithIds = addIdsToHeadings(rawHtml);
-  const toc = extractToc(contentWithIds);
+  const markdown = article.content?.text || "";
+  const toc = extractTocFromMarkdown(markdown);
 
   const post = {
     slug: article.id,
@@ -55,7 +43,6 @@ export default async function PostPage({ params }) {
     date: article.publish_time,
     author: siteConfig.author,
     tags: article.categories ? [article.categories.name] : [],
-    content: contentWithIds,
   };
 
   return (
@@ -109,7 +96,7 @@ export default async function PostPage({ params }) {
                 )}
               </div>
             </header>
-            <ArticleContent html={contentWithIds} />
+            <ArticleContent markdown={markdown} />
           </article>
         </div>
         <PostActionsMobile post={post} toc={toc} />

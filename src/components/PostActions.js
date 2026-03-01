@@ -10,7 +10,7 @@ import {
   Share2,
 } from "lucide-react";
 import ShareLinks from "./ShareLinks";
-import { siteConfig } from "@/data/posts";
+import { siteConfig } from "@/lib/config";
 
 export default function PostActions({ post, prevPost, nextPost, toc }) {
   const [menuVisible, setMenuVisible] = useState(true);

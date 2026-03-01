@@ -1,25 +1,38 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import hljs from "highlight.js";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
 import "highlight.js/styles/github-dark.css";
 
-export default function ArticleContent({ html }) {
-  const contentRef = useRef(null);
+function getHeadingId(children) {
+  const text = typeof children === "string"
+    ? children
+    : Array.isArray(children)
+      ? children.map((c) => (typeof c === "string" ? c : "")).join("")
+      : "";
+  return text.toLowerCase().replace(/[^a-z0-9\u4e00-\u9fff]+/g, "-").replace(/^-|-$/g, "");
+}
 
-  useEffect(() => {
-    if (!contentRef.current) return;
-    contentRef.current.querySelectorAll("pre code").forEach((block) => {
-      hljs.highlightElement(block);
-    });
-  }, [html]);
+const components = {
+  h2: ({ children, ...props }) => (
+    <h2 id={getHeadingId(children)} {...props}>{children}</h2>
+  ),
+  h3: ({ children, ...props }) => (
+    <h3 id={getHeadingId(children)} {...props}>{children}</h3>
+  ),
+};
 
+export default function ArticleContent({ markdown }) {
   return (
-    <div
-      ref={contentRef}
-      className="prose max-w-none"
-      itemProp="articleBody"
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    <div className="prose max-w-none" itemProp="articleBody">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeHighlight]}
+        components={components}
+      >
+        {markdown}
+      </ReactMarkdown>
+    </div>
   );
 }

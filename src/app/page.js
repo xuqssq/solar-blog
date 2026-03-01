@@ -2,7 +2,7 @@ import Link from "next/link";
 import Banner from "@/components/Banner";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { siteConfig } from "@/data/posts";
+import { siteConfig } from "@/lib/config";
 import { getLatestArticles } from "@/lib/queries";
 
 export default async function Home() {
